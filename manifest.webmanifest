@@ -1,0 +1,14 @@
+{
+  "name": "Assembleia de Deus — Ministério do Belém - Camargo 3",
+  "short_name": "AD Camargo 3",
+  "description": "Agenda semanal e eventos especiais da igreja.",
+  "lang": "pt-BR",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f6f2",
+  "theme_color": "#111111",
+  "icons": [
+    {"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}

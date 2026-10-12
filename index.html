@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111111">
+  <meta name="description" content="Agenda semanal e eventos da Assembleia de Deus — Ministério do Belém - Camargo 3.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <title>Agenda | AD Camargo 3</title>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand-mark" aria-hidden="true">✦</div>
+    <div class="brand">
+      <p class="eyebrow">AGENDA DA IGREJA</p>
+      <h1>Assembleia de Deus</h1>
+      <p class="subtitle">Ministério do Belém — Camargo 3</p>
+    </div>
+    <button id="installBtn" class="button button-outline hidden" type="button">Instalar app</button>
+  </header>
+
+  <main class="container">
+    <section class="welcome panel">
+      <div>
+        <p class="eyebrow gold">FÉ • COMUNHÃO • PALAVRA</p>
+        <h2>Programação semanal</h2>
+        <p class="muted">Confira nossos cultos, reuniões e eventos especiais.</p>
+      </div>
+      <button id="shareBtn" class="button button-gold" type="button">Compartilhar agenda</button>
+    </section>
+
+    <section class="section-heading">
+      <div>
+        <p class="eyebrow">DIA A DIA</p>
+        <h2>Atividades da semana</h2>
+      </div>
+      <span id="eventCount" class="count-pill">0 atividades</span>
+    </section>
+    <div id="weeklyAgenda" class="agenda-grid"></div>
+
+    <section class="section-heading events-heading">
+      <div>
+        <p class="eyebrow">FIQUE POR DENTRO</p>
+        <h2>Eventos especiais</h2>
+      </div>
+    </section>
+    <div id="specialEvents" class="special-list"></div>
+
+    <section class="notice panel">
+      <span class="notice-icon" aria-hidden="true">✦</span>
+      <div>
+        <h3>Participe conosco</h3>
+        <p class="muted">Acompanhe os avisos da igreja e confirme os horários nos comunicados oficiais.</p>
+      </div>
+    </section>
+
+    <section id="adminSection" class="admin panel">
+      <div class="admin-top">
+        <div>
+          <p class="eyebrow">GERENCIAMENTO</p>
+          <h2>Painel administrativo</h2>
+          <p class="muted small">Cadastre e edite atividades neste dispositivo.</p>
+        </div>
+        <button id="toggleAdmin" class="button button-outline" type="button">Abrir painel</button>
+      </div>
+      <div id="adminPanel" class="hidden">
+        <div class="prototype-warning"><strong>Importante:</strong> esta versão salva alterações no navegador deste dispositivo. Para que vários administradores atualizem uma agenda única pela internet, será necessário conectar um banco de dados e autenticação.</div>
+        <form id="eventForm" class="event-form">
+          <input type="hidden" id="eventId">
+          <label>Tipo de atividade
+            <select id="eventType">
+              <option value="weekly">Atividade semanal</option>
+              <option value="special">Evento especial</option>
+            </select>
+          </label>
+          <label>Nome da atividade
+            <input id="eventTitle" required maxlength="90" placeholder="Ex.: Culto de ensino">
+          </label>
+          <div class="form-row">
+            <label>Dia da semana
+              <select id="eventDay">
+                <option value="0">Domingo</option><option value="1">Segunda-feira</option>
+                <option value="2">Terça-feira</option><option value="3">Quarta-feira</option>
+                <option value="4">Quinta-feira</option><option value="5">Sexta-feira</option>
+                <option value="6">Sábado</option>
+              </select>
+            </label>
+            <label>Horário
+              <input id="eventTime" type="time">
+            </label>
+          </div>
+          <label>Data (opcional; para eventos especiais)
+            <input id="eventDate" type="date">
+          </label>
+          <label>Descrição / local
+            <textarea id="eventDescription" rows="2" maxlength="220" placeholder="Ex.: Na sede da igreja"></textarea>
+          </label>
+          <div class="form-actions">
+            <button class="button button-gold" type="submit">Salvar atividade</button>
+            <button id="cancelEdit" class="button button-outline hidden" type="button">Cancelar edição</button>
+          </div>
+        </form>
+        <div class="admin-list-heading"><h3>Atividades cadastradas</h3><button id="resetBtn" class="text-button" type="button">Restaurar exemplo</button></div>
+        <div id="adminList" class="admin-list"></div>
+        <button id="exportBtn" class="button button-outline" type="button">Exportar cópia de segurança (JSON)</button>
+        <label class="import-label">Importar cópia de segurança (JSON)
+          <input id="importFile" type="file" accept="application/json,.json">
+        </label>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-mark">✦</div>
+    <p>Assembleia de Deus — Ministério do Belém - Camargo 3</p>
+    <p class="muted small">Que a Palavra de Deus guie cada dia.</p>
+  </footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
