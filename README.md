@@ -1,61 +1,65 @@
 # Agenda PWA — Assembleia de Deus, Ministério do Belém - Camargo 3
 
-Site responsivo em português, com identidade visual preta, dourada e branca, agenda de domingo a sábado, eventos especiais, compartilhamento e suporte PWA.
+Site estático e responsivo com tema preto, dourado e branco. A programação é mantida editando apenas `programacao.js`, sem painel administrativo.
 
 ## Arquivos
 
-- `index.html` — estrutura do site e painel administrativo.
-- `styles.css` — visual responsivo para celular e computador.
-- `app.js` — programação, edição, exportação e importação de backup.
-- `manifest.webmanifest` — informações para instalação como aplicativo.
-- `sw.js` — cache básico para abrir o site quando estiver sem conexão após a primeira visita.
-- `icon.svg` — ícone do aplicativo.
+- `index.html`: página principal.
+- `styles.css`: aparência e adaptação para celular.
+- `programacao.js`: **arquivo que você edita para alterar os cultos e eventos**.
+- `app.js`: exibição da agenda, compartilhamento e instalação.
+- `manifest.webmanifest`: configurações PWA.
+- `sw.js`: cache offline básico.
+- `icon.svg`: ícone.
 
-## Importante sobre o painel administrativo
+## Como editar a programação
 
-Esta versão inicial guarda as alterações no `localStorage` do navegador. Isso permite testar e administrar a agenda no mesmo aparelho/navegador, mas **não sincroniza** as mudanças para outros celulares ou computadores. Também não há autenticação real: não publique dados privados esperando que o painel seja protegido.
+Abra `programacao.js` em um editor de texto (por exemplo, Bloco de Notas ou Visual Studio Code). Cada atividade segue este formato:
 
-Para uma agenda compartilhada de verdade, o próximo passo é conectar um backend (por exemplo, Supabase ou Firebase), configurar login de administrador e regras de acesso. Assim, alterações feitas por um administrador aparecerão para todos os visitantes. Não coloque senhas ou chaves privadas no JavaScript público.
+```js
+{ tipo:"weekly", titulo:"Culto de ensino", dia:3, horario:"19:30", data:"", descricao:"Na sede da igreja." }
+```
+
+- `tipo`: use `weekly` para atividade semanal ou `special` para evento especial.
+- `titulo`: nome da atividade.
+- `dia`: 0 domingo, 1 segunda, 2 terça, 3 quarta, 4 quinta, 5 sexta, 6 sábado.
+- `horario`: formato 24 horas, como `19:30`.
+- `data`: para eventos especiais, use `AAAA-MM-DD`; se não houver data definida, deixe `""`.
+- `descricao`: local ou informação adicional.
+
+Para acrescentar outra atividade, copie uma linha e separe as entradas com vírgula. Não remova os colchetes `[` `]` nem a estrutura `window.PROGRAMACAO = { atividades: [...] };`. O arquivo já contém exemplos; confira e substitua pelos horários oficiais antes de publicar.
 
 ## Testar no computador
 
-1. Extraia o ZIP.
-2. Abra a pasta do projeto.
-3. Para testar o PWA e o cache, sirva os arquivos por HTTP local. Com Python instalado, abra um terminal nessa pasta e execute:
-   ```bash
-   python -m http.server 8000
-   ```
-4. Acesse `http://localhost:8000`.
+O site usa recursos PWA, que precisam de `localhost` ou HTTPS. Se tiver Python instalado, abra um terminal na pasta e execute:
 
-Abrir `index.html` diretamente funciona para testar a página, mas recursos PWA/service worker exigem `localhost` ou HTTPS.
+```bash
+python -m http.server 8000
+```
 
-## Publicar gratuitamente com GitHub Pages
+Depois visite `http://localhost:8000`.
 
-1. Crie ou entre em uma conta no GitHub.
-2. Crie um repositório, por exemplo `agenda-ad-camargo3`.
-3. Envie os arquivos desta pasta para a raiz do repositório.
-4. No repositório, abra **Settings → Pages**.
-5. Em **Build and deployment**, escolha **Deploy from a branch**; selecione a branch `main` e a pasta `/ (root)`, depois salve.
-6. Aguarde a publicação e abra o endereço indicado pelo GitHub Pages.
-7. Teste em um celular Android usando Chrome. O site deve ser servido por HTTPS para instalação PWA.
+## Publicar gratuitamente no GitHub Pages
 
-## Como usar o painel
+1. Entre em https://github.com/ e crie um repositório público chamado `agenda-ad-camargo3`.
+2. Envie os arquivos desta pasta para a raiz do repositório.
+3. Abra **Settings → Pages**.
+4. Em **Build and deployment**, escolha **Deploy from a branch**, selecione a branch `main` e a pasta `/ (root)`, depois salve.
+5. Aguarde o GitHub fornecer o endereço do site e abra-o pelo celular. O HTTPS do GitHub Pages permite os recursos PWA.
 
-1. Abra a seção **Painel administrativo** e clique em **Abrir painel**.
-2. Escolha “Atividade semanal” ou “Evento especial”.
-3. Informe nome, dia/horário e descrição. Para eventos especiais, a data é opcional.
-4. Clique em **Salvar atividade**.
-5. Use **Editar** ou **Excluir** na lista de atividades.
-6. Antes de limpar os dados do navegador ou trocar de aparelho, use **Exportar cópia de segurança (JSON)** e guarde o arquivo. O JSON pode ser importado neste mesmo site.
+## Como atualizar depois de publicar
 
-## Personalizar a programação
+1. Edite `programacao.js` no seu computador.
+2. No GitHub, abra esse arquivo e clique no lápis para editar, ou envie a versão atualizada do arquivo.
+3. Salve a alteração (Commit changes). O site usará a nova programação.
+4. Como o PWA guarda arquivos em cache, se o celular continuar mostrando a versão antiga, feche e abra o site novamente ou atualize a página. Para forçar atualização do cache, altere o valor `CACHE_NAME` no arquivo `sw.js` ao publicar uma versão nova.
 
-A programação inicial é apenas um exemplo para demonstrar o funcionamento. Revise todos os dias e horários antes de publicar. Você pode excluir os exemplos pelo painel e cadastrar os horários oficiais da igreja.
+## Compartilhar no WhatsApp
 
-## Compartilhamento
+O botão de compartilhamento usa o menu de compartilhamento do aparelho quando disponível. Caso contrário, abre o WhatsApp com uma mensagem e o link do site. Publique primeiro para que o link compartilhado seja acessível a todos.
 
-O botão “Compartilhar agenda” usa o compartilhamento do dispositivo quando disponível; em outros navegadores tenta copiar o texto e link. O link só pode ser compartilhado depois que o site estiver publicado.
+## Observações
 
-## Próxima etapa recomendada
-
-Para uso real pela congregação, implemente autenticação administrativa e banco de dados compartilhado. A versão atual é um protótipo funcional de front-end, não um sistema multiusuário.
+- A programação inicial é ilustrativa. Revise os dias e horários antes de divulgar.
+- Esta versão não possui login nem painel de edição. Para atualizar, edite `programacao.js` e publique a mudança.
+- O cache permite acesso offline básico depois da primeira visita, mas novas alterações só chegam ao aparelho quando ele sincroniza com a versão publicada.
